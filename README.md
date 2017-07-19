@@ -14,6 +14,9 @@ All inclusive protoc suite, powered by Docker and Alpine Linux.
   - github.com/gogo/protobuf/protoc-gen-gogoslick
   - github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
   - github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+- Ruby related tools with glibc support
+  - gem install grpc
+  - gem install grpc-tools
 
 ## Supported languages
 - C++
@@ -28,13 +31,13 @@ All inclusive protoc suite, powered by Docker and Alpine Linux.
 
 ## Usage
 ```
-$ docker run --rm znly/protoc --help
+$ docker run --rm zhouzhuojie/protoc protoc -I/protobuf --help
 Usage: /usr/bin/protoc [OPTION] PROTO_FILES
 ```
 
 Don't forget you need to bind mount your files:
 ```
-$ docker run --rm -v $(pwd):$(pwd) -w $(pwd) znly/protoc --python_out=. -I. myfile.proto
+$ docker run --rm -v $(pwd):$(pwd) -w $(pwd) zhouzhuojie/protoc protoc -I/protoby -I. --python_out=. myfile.proto
 ```
 
 ## Google Well Known Types
@@ -55,6 +58,5 @@ syntax = "proto3";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 ```
 
-## Image Size
-The current image is about ~130mb and one layer. Most the space is spent on Go tools.
-All the binaries are UPX'ed. Including the Swift stdlib.
+## Credit
+Base image is from znly/protoc, frolvlad/alpine-glibc
