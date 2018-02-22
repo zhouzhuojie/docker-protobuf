@@ -1,7 +1,7 @@
 FROM znly/protoc
 
 RUN apk update && apk upgrade && apk --update add \
-    ruby-dev ruby-irb ruby-rake ruby-io-console ruby-bigdecimal ruby-json ruby-bundler \
+    ruby-dev ruby-irb ruby-rake ruby-io-console ruby-bigdecimal ruby-json ruby-bundler git go\
     libstdc++ tzdata bash ca-certificates build-base \
     &&  echo 'gem: --no-document' > /etc/gemrc
 
@@ -36,8 +36,12 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
-RUN gem install grpc && gem install grpc-tools
-
 ENV LANG=C.UTF-8
+ENV GOPATH=/go
+ENV PATH=/go/bin:$PATH
+
+RUN gem install grpc && gem install grpc-tools
+RUN go get -u github.com/golang/protobuf/protoc-gen-go
+RUN go get -u github.com/twitchtv/twirp/protoc-gen-twirp
 
 ENTRYPOINT []
